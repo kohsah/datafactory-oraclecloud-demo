@@ -1,0 +1,12 @@
+{
+	"name": "ocBlobStorage",
+	"type": "Microsoft.DataFactory/factories/linkedservices",
+	"properties": {
+		"annotations": [],
+		"type": "AzureBlobStorage",
+		"typeProperties": {
+			"connectionString": "DefaultEndpointsProtocol=https;AccountName=ocblobstore;EndpointSuffix=core.windows.net;",
+			"encryptedCredential": "XXXXXXXXXXXXX"
+		}
+	}
+}

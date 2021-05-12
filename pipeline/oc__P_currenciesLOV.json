@@ -1,0 +1,89 @@
+{
+	"name": "oc__P_currenciesLOV",
+	"properties": {
+		"description": "Copies currency from Oracle Cloud",
+		"activities": [
+			{
+				"name": "Copy Currencies from Oracle Cloud",
+				"type": "Copy",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "RestSource",
+						"httpRequestTimeout": "00:01:40",
+						"requestInterval": "00.00:00:00.010",
+						"requestMethod": "GET"
+					},
+					"sink": {
+						"type": "JsonSink",
+						"storeSettings": {
+							"type": "AzureBlobStorageWriteSettings"
+						},
+						"formatSettings": {
+							"type": "JsonWriteSettings"
+						}
+					},
+					"enableStaging": false
+				},
+				"inputs": [
+					{
+						"referenceName": "oc__DS_OC_CurrenciesLOV",
+						"type": "DatasetReference",
+						"parameters": {
+							"onlyData": "true",
+							"serviceBase": "fscmRestApi",
+							"serviceVersion": "11.13.18.05",
+							"serviceName": "currenciesLOV"
+						}
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "oc__DS_currencyLOVJSON",
+						"type": "DatasetReference"
+					}
+				]
+			},
+			{
+				"name": "Copy Json to SQL Table",
+				"type": "ExecuteDataFlow",
+				"dependsOn": [
+					{
+						"activity": "Copy Currencies from Oracle Cloud",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataflow": {
+						"referenceName": "oc__DF_copy_currencyJSON_to_sql",
+						"type": "DataFlowReference"
+					},
+					"compute": {
+						"coreCount": 8,
+						"computeType": "General"
+					},
+					"traceLevel": "Fine"
+				}
+			}
+		],
+		"annotations": []
+	}
+}

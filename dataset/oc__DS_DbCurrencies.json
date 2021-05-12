@@ -1,0 +1,85 @@
+{
+	"name": "oc__DS_DbCurrencies",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "ocdbLink",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "CurrencyCode",
+				"type": "char"
+			},
+			{
+				"name": "CurrencyName",
+				"type": "varchar"
+			},
+			{
+				"name": "Description",
+				"type": "varchar"
+			},
+			{
+				"name": "EnabledFlag",
+				"type": "char"
+			},
+			{
+				"name": "StartDateActive",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "EndDateActive",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "ActiveDate",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "CurrencyFormat",
+				"type": "varchar"
+			},
+			{
+				"name": "CurrencyFormatWithSymbol",
+				"type": "varchar"
+			},
+			{
+				"name": "CurrencyFormatWithCode",
+				"type": "varchar"
+			},
+			{
+				"name": "IssuingTerritoryCode",
+				"type": "char"
+			},
+			{
+				"name": "Symbol",
+				"type": "char"
+			},
+			{
+				"name": "Precision",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "ExtendedPrecision",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "CurrencyFlag",
+				"type": "char"
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "currencyLOV"
+		}
+	}
+}

@@ -1,0 +1,33 @@
+{
+	"name": "oc__DF_copy_currencyJSON_to_sql",
+	"properties": {
+		"description": "Copy Currency JSON to SQL",
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "oc__DS_currencyLOVJSON",
+						"type": "DatasetReference"
+					},
+					"name": "JsonToDB"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "oc__DS_DbCurrencies",
+						"type": "DatasetReference"
+					},
+					"name": "WriteToCurrenciesSQL"
+				}
+			],
+			"transformations": [
+				{
+					"name": "FlattenCurrencies"
+				}
+			],
+			"script": "source(output(\n\t\tcount as short,\n\t\thasMore as boolean,\n\t\titems as (ActiveDate as string, CurrencyCode as string, CurrencyFlag as boolean, CurrencyFormat as string, CurrencyFormatWithCode as string, CurrencyFormatWithSymbol as string, Description as string, EnabledFlag as boolean, EndDateActive as date, ExtendedPrecision as short, IssuingTerritoryCode as string, Name as string, Precision as short, StartDateActive as date, Symbol as string)[],\n\t\tlimit as short,\n\t\tlinks as (href as string, kind as string, name as string, rel as string)[],\n\t\toffset as boolean\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false,\n\tdocumentForm: 'documentPerLine') ~> JsonToDB\nJsonToDB foldDown(unroll(items),\n\tmapColumn(\n\t\tActiveDate = items.ActiveDate,\n\t\tCurrencyCode = items.CurrencyCode,\n\t\tCurrencyFlag = items.CurrencyFlag,\n\t\tCurrencyFormat = items.CurrencyFormat,\n\t\tCurrencyFormatWithCode = items.CurrencyFormatWithCode,\n\t\tCurrencyFormatWithSymbol = items.CurrencyFormatWithSymbol,\n\t\tDescription = items.Description,\n\t\tEnabledFlag = items.EnabledFlag,\n\t\tEndDateActive = items.EndDateActive,\n\t\tExtendedPrecision = items.ExtendedPrecision,\n\t\tIssuingTerritoryCode = items.IssuingTerritoryCode,\n\t\tName = items.Name,\n\t\tPrecision = items.Precision,\n\t\tStartDateActive = items.StartDateActive,\n\t\tSymbol = items.Symbol\n\t),\n\tskipDuplicateMapInputs: false,\n\tskipDuplicateMapOutputs: false) ~> FlattenCurrencies\nFlattenCurrencies sink(input(\n\t\tCurrencyCode as string,\n\t\tCurrencyName as string,\n\t\tDescription as string,\n\t\tEnabledFlag as string,\n\t\tStartDateActive as timestamp,\n\t\tEndDateActive as timestamp,\n\t\tActiveDate as timestamp,\n\t\tCurrencyFormat as string,\n\t\tCurrencyFormatWithSymbol as string,\n\t\tCurrencyFormatWithCode as string,\n\t\tIssuingTerritoryCode as string,\n\t\tSymbol as string,\n\t\tPrecision as integer,\n\t\tExtendedPrecision as integer,\n\t\tCurrencyFlag as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\tformat: 'table',\n\tmapColumn(\n\t\tCurrencyCode,\n\t\tCurrencyName = Name,\n\t\tDescription,\n\t\tEnabledFlag,\n\t\tStartDateActive,\n\t\tEndDateActive,\n\t\tActiveDate,\n\t\tCurrencyFormat,\n\t\tCurrencyFormatWithSymbol,\n\t\tCurrencyFormatWithCode,\n\t\tIssuingTerritoryCode,\n\t\tSymbol,\n\t\tPrecision,\n\t\tExtendedPrecision,\n\t\tCurrencyFlag\n\t),\n\tbooleanFormat: ['Y', 'N'],\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\terrorHandlingOption: 'stopOnFirstError') ~> WriteToCurrenciesSQL"
+		}
+	}
+}

@@ -1,0 +1,46 @@
+{
+	"name": "OC_CurrenciesLOV",
+	"type": "Microsoft.DataFactory/factories/linkedservices",
+	"properties": {
+		"description": "Pulls currencies from Oracle Cloud",
+		"parameters": {
+			"baseURL": {
+				"type": "string",
+				"defaultValue": "https://CHANGE_THIS_TO_ACTUAL_URL.oraclecloud.com"
+			},
+			"serviceVersion": {
+				"type": "string",
+				"defaultValue": "11.13.18.05"
+			},
+			"serviceBase": {
+				"type": "string",
+				"defaultValue": "fscmRestApi"
+			},
+			"serviceName": {
+				"type": "string",
+				"defaultValue": "currenciesLOV"
+			},
+			"onlyData": {
+				"type": "string",
+				"defaultValue": "true"
+			},
+			"userName": {
+				"type": "string",
+				"defaultValue": "ENTER_USER_NAME_HERE_FOR_ORACLE_CLOUD_ACCESS"
+			},
+			"passWord": {
+				"type": "string",
+				"defaultValue": "ENTER_PASSWORD_HERE_FOR_ORACLE_CLOUD_ACCESS"
+			}
+		},
+		"annotations": [],
+		"type": "RestService",
+		"typeProperties": {
+			"url": "@{linkedService().baseURL}",
+			"enableServerCertificateValidation": true,
+			"authenticationType": "Basic",
+			"userName": "@{linkedService().userName}",
+			"password": "@{linkedService().passWord}"
+		}
+	}
+}

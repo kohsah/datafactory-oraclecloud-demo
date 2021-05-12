@@ -1,0 +1,12 @@
+{
+	"name": "ocdbLink",
+	"type": "Microsoft.DataFactory/factories/linkedservices",
+	"properties": {
+		"annotations": [],
+		"type": "AzureSqlDatabase",
+		"typeProperties": {
+			"connectionString": "integrated security=False;encrypt=True;connection timeout=30;data source=adf-ocdb.database.windows.net;initial catalog=ocdb;user id=ashok",
+			"encryptedCredential": "eXXXXXXXXX"
+		}
+	}
+}

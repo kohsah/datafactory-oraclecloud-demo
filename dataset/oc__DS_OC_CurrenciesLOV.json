@@ -1,0 +1,46 @@
+{
+	"name": "oc__DS_OC_CurrenciesLOV",
+	"properties": {
+		"description": "Data set for Currencies from Oracle Cloud",
+		"linkedServiceName": {
+			"referenceName": "OC_CurrenciesLOV",
+			"type": "LinkedServiceReference",
+			"parameters": {
+				"baseURL": "https://CHANGE_THIS_TO_ACTUAL_URL.oraclecloud.com",
+				"serviceVersion": "11.13.18.05",
+				"serviceBase": "@dataset().serviceBase",
+				"serviceName": "@dataset().serviceName",
+				"onlyData": "true",
+				"userName": "ENTER_USER_NAME_HERE_FOR_ORACLE_CLOUD_ACCESS",
+				"passWord": "ENTER_PASSWORD_HERE_FOR_ORACLE_CLOUD_ACCESS"
+			}
+		},
+		"parameters": {
+			"onlyData": {
+				"type": "string",
+				"defaultValue": "true"
+			},
+			"serviceBase": {
+				"type": "string",
+				"defaultValue": "fscmRestApi"
+			},
+			"serviceVersion": {
+				"type": "string",
+				"defaultValue": "11.13.18.05"
+			},
+			"serviceName": {
+				"type": "string",
+				"defaultValue": "currenciesLOV"
+			}
+		},
+		"annotations": [],
+		"type": "RestResource",
+		"typeProperties": {
+			"relativeUrl": {
+				"value": "@concat('/', dataset().serviceBase, '/resources/', dataset().serviceVersion, '/', dataset().serviceName, '?onlyData=', dataset().onlyData)",
+				"type": "Expression"
+			}
+		},
+		"schema": []
+	}
+}
